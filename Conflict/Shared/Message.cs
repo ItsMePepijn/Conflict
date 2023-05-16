@@ -4,7 +4,7 @@ namespace Conflict.Shared
 {
     public class Message
     {
-        public Id Id {  get; set; }
+        public Id Id { get; set; }
 
         public string? Content { get; set; }
 
@@ -14,10 +14,10 @@ namespace Conflict.Shared
         public Message(string content, Id id)
         {
             Content = content;
-            //Id = id;
-            Id = Id.Create();
+            Id = id;
+            //Id = Id.Create();
 
-            Console.WriteLine($"Created new message!\nContent: {Content}\nId: {Id}\n");
+            //Console.WriteLine($"Created new message!\nContent: {Content}\nId: {Id}\n");
         }
     }
 }
