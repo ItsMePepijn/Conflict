@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conflict.Server", "Conflict\Server\Conflict.Server.csproj", "{FAFB1945-26DE-4204-8EE2-10D17E2F2F83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Conflict.Server", "Conflict\Server\Conflict.Server.csproj", "{FAFB1945-26DE-4204-8EE2-10D17E2F2F83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conflict.Client", "Conflict\Client\Conflict.Client.csproj", "{343AD9AE-FF22-4403-A65F-AAC33C7EEFB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Conflict.Client", "Conflict\Client\Conflict.Client.csproj", "{343AD9AE-FF22-4403-A65F-AAC33C7EEFB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conflict.Shared", "Conflict\Shared\Conflict.Shared.csproj", "{E6A6CC52-E31F-4F76-9A24-C37A6B0DB5AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Conflict.Shared", "Conflict\Shared\Conflict.Shared.csproj", "{E6A6CC52-E31F-4F76-9A24-C37A6B0DB5AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

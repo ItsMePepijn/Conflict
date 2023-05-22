@@ -6,20 +6,28 @@
 
 <PageTitle>Index</PageTitle>
 
+
+
+@if(IsConnected)
+{
 <div>
-    <label>
-        Message:
-        <input @bind-value="messageInput" @bind-value:event="oninput" @onkeydown="Enter" />
-    </label>
+    <input @bind-value="messageInput" @bind-value:event="oninput" @onkeydown="Enter" />
+    <button @onclick="Send" disabled="@(!IsConnected)">Send</button>
 </div>
 
-<button @onclick="Send" disabled="@(!IsConnected)">Send</button>
-
+<br>
 <hr>
 
 <ul>
     @foreach (var message in messages)
     {
-        <li>@message</li>
+        <li>@message.Author.Name :: @message.Content</li>
     }
 </ul>
+}
+else
+{
+    <Loading Message="Connecting to server"/>
+}
+
+

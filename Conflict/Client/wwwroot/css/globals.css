@@ -2,6 +2,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "lexend", sans-serif;
+}
+
+p {
+    font-family: "Wix_Madefor_Text" sans-serif;
 }
 
 h1:focus{

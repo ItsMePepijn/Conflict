@@ -1,0 +1,37 @@
+﻿.loading-container {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: #2b2d31;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #bfbfbf;
+    text-align: center;
+}
+
+    .loading-container .loading {
+        /*border: 1px solid red;*/
+        padding: 20px;
+        font-size: 23px;
+    }
+
+        .loading-container .loading img {
+            width: 170px;
+            margin-bottom: 40px;
+            animation: size 1300ms ease-in-out infinite;
+        }
+
+@keyframes size {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}

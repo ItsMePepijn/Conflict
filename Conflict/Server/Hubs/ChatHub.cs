@@ -6,10 +6,12 @@ namespace Conflict.Server.Hubs
 {
     public class ChatHub : Hub
     {
-        public async Task SendMessage(string user, string content)
+        public async Task SendMessage(string username, string content)
         {
-            Message Message = new(content, Id.Create());
-            await Clients.All.SendAsync("ReceiveMessage", user, Message);
+            User user = new("Username", Id.Create());
+            Message Message = new(content, user, Id.Create());
+
+            await Clients.All.SendAsync("ReceiveMessage", Message);
         }
     }
 }
