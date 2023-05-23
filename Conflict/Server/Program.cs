@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddSignalR();
 builder.Services.AddResponseCompression(opts =>
@@ -44,5 +45,11 @@ app.MapControllers();
 app.MapHub<ChatHub>("/chathub");
 
 app.MapFallbackToFile("index.html");
+
+if(app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.Run();
