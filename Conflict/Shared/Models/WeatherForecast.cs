@@ -1,4 +1,4 @@
-namespace Conflict.Shared
+namespace Conflict.Shared.Models
 {
     public class WeatherForecast
     {

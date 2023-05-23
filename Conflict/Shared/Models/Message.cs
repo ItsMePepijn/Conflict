@@ -1,6 +1,6 @@
 ﻿using FlakeId;
 
-namespace Conflict.Shared
+namespace Conflict.Shared.Models
 {
     public class Message
     {
