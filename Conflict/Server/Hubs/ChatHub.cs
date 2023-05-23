@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using Conflict.Shared;
 using FlakeId;
+using Conflict.Shared.Models;
 
 namespace Conflict.Server.Hubs
 {

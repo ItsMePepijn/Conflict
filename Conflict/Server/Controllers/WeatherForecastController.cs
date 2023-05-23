@@ -1,4 +1,4 @@
-using Conflict.Shared;
+using Conflict.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Conflict.Server.Controllers
@@ -14,7 +14,7 @@ namespace Conflict.Server.Controllers
 
         [HttpGet]
         public WeatherForecast Get()
-        {
+		{
             return new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(Random.Shared.Next(1, 6))),

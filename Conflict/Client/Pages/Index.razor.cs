@@ -1,10 +1,10 @@
-﻿using Conflict.Shared;
+﻿using Conflict.Shared.Models;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.SignalR.Client;
 
 namespace Conflict.Client.Pages
 {
-	partial class Index
+    partial class Index
 	{
 		private HubConnection? hubConnection;
 		private readonly List<Message> messages = new List<Message>();
