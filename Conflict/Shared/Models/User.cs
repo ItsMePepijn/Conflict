@@ -1,18 +1,14 @@
-﻿using FlakeId;
-
+﻿
 namespace Conflict.Shared.Models
 {
     public class User
     {
-        public Id Id { get; set; }
+        public long Id { get; set; } = FlakeId.Id.Create();
 
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
-        public User(string name, Id id)
-        {
-            Name = name;
-            Id = id;
-            //Id = Id.Create();
-        }
+        public string PasswordHash { get; set; } = string.Empty;
+
+
     }
 }
