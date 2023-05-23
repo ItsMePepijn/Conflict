@@ -18,9 +18,23 @@
 
         .loading-container .loading img {
             width: 170px;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
             animation: size 1300ms ease-in-out infinite;
         }
+
+    .loading-container .reload {
+        color: white;
+        margin: 20px auto 0;
+        font-size: 18px;
+        cursor: pointer;
+        padding: 10px 20px;
+        border-radius: 5px;
+        width: fit-content;
+
+        box-shadow: rgba(70,20,255, 0.3) 0px 10px 15px;
+        background: rgb(26,109,255);
+        background: linear-gradient(201deg, rgba(26,109,255,1) 0%, rgba(200,34,255,1) 100%);
+    }
 
 @keyframes size {
     0% {

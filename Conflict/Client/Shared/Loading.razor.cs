@@ -9,24 +9,30 @@ namespace Conflict.Client.Shared
 		public string Message { get; set; } = string.Empty;
 		[Parameter]
 		public bool IsLoading { get; set; } = true;
-		public string dots { get; set; } = string.Empty;
-		private Timer? timer;
+		public string Dots { get; set; } = string.Empty;
 
 		protected override void OnInitialized()
 		{
-			if (IsLoading)
-			{
+
 				int delay = 400;
-				timer = new System.Threading.Timer((object? stateInfo) =>
+				Timer timer = new Timer((object? stateInfo) =>
 				{
-					if (dots.Length < 3)
-						dots += ".";
-					else
-						dots = ".";
+					if (IsLoading)
+					{
+						if (Dots.Length < 3)
+							Dots += ".";
+						else
+							Dots = ".";
+					}
+					else Dots = string.Empty;
 
 					StateHasChanged();
-				}, new System.Threading.AutoResetEvent(false), delay, delay); // fire every 2000 milliseconds
-			}
+				}, new AutoResetEvent(false), delay, delay);
+		}
+
+		private void Reload()
+		{
+			Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
 		}
 	}
 

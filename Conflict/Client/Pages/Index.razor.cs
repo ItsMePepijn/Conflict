@@ -7,15 +7,18 @@ namespace Conflict.Client.Pages
 	partial class Index
 	{
 		private HubConnection? hubConnection;
-		private List<Message> messages = new List<Message>();
-		private string user = "Username";
+		private readonly List<Message> messages = new List<Message>();
+		private readonly string user = "Username";
 		private string? messageInput;
+
+		private string loadingMsg = "Connecting to server";
+		private bool isLoading = true;
 
 		protected override async Task OnInitializedAsync()
 		{
 			hubConnection = new HubConnectionBuilder()
 				.WithUrl(Navigation.ToAbsoluteUri("/chathub"))
-				.WithAutomaticReconnect()
+				.WithAutomaticReconnect(new RetryPolicy())
 				.Build();
 
 
@@ -24,6 +27,26 @@ namespace Conflict.Client.Pages
 				messages.Add(message);
 				StateHasChanged();
 			});
+
+			hubConnection.Reconnecting += error =>
+			{
+				StateHasChanged();
+				return Task.CompletedTask;
+			};
+
+			hubConnection.Reconnected += connectionId =>
+			{
+				StateHasChanged();
+				return Task.CompletedTask;
+			};
+
+			hubConnection.Closed += Exception =>
+			{
+				loadingMsg = "Failed to connect";
+				isLoading = false;
+				StateHasChanged();
+				return Task.CompletedTask;
+			};
 
 			await hubConnection.StartAsync();
 		}

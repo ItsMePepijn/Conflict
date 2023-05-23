@@ -1,6 +1,13 @@
-﻿<div class="loading-container">
+﻿@inject NavigationManager Navigation
+
+<div class="loading-container">
 	<div class="loading">
-		<img src="/cloudshot.svg" alt="Loading..." draggable="false"/>
-		<p>@(string.IsNullOrEmpty(Message) ? "Page is loading..." : Message + dots)</p>
+		<img src="/cloudshot.svg" alt="Loading..." draggable="false" />
+		<p>@(string.IsNullOrEmpty(Message) ? "Page is loading..." : Message + Dots)</p>
+
+		@if(!IsLoading)
+		{
+			<p class="reload" @onclick="@Reload">Retry</p>
+		}
 	</div>
 </div>
