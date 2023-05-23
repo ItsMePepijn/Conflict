@@ -8,8 +8,17 @@ namespace Conflict.Server.Hubs
     {
         public async Task SendMessage(string username, string content)
         {
-            User user = new("Username", Id.Create());
-            Message Message = new(content, user, Id.Create());
+            User User = new()
+            {
+                Name = "Username",
+                //Id = Id.Create()
+            };
+            Message Message = new()
+            {
+                Content = content,
+                //Id = Id.Create(),
+                Author = User,
+            };
 
             await Clients.All.SendAsync("ReceiveMessage", Message);
         }
