@@ -50,7 +50,6 @@ namespace Conflict.Server.Controllers
 				new Claim(ClaimTypes.Name, user.Name)
 			};
 
-
 			SymmetricSecurityKey key = new(System.Text.Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:JwtKey").Value!));
 
 			SigningCredentials cred = new(key, SecurityAlgorithms.HmacSha512Signature);

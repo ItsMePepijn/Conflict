@@ -1,4 +1,5 @@
 using Conflict.Shared.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Conflict.Server.Controllers
@@ -12,7 +13,7 @@ namespace Conflict.Server.Controllers
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        [HttpGet]
+        [HttpGet, Authorize]
         public WeatherForecast Get()
 		{
             return new WeatherForecast
