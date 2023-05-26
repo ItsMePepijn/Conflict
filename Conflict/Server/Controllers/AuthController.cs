@@ -1,9 +1,4 @@
-﻿using Conflict.Shared.Models;
-using Conflict.Shared.Dto;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Conflict.Server.Controllers
 {
@@ -11,58 +6,32 @@ namespace Conflict.Server.Controllers
 	[ApiController]
 	public class AuthController : ControllerBase
 	{
-		public static User user = new();
+		private readonly IAuthService _authService;
 
-		public IConfiguration _config { get; }
-
-		public AuthController(IConfiguration config)
-        {
-			_config = config;
+		public AuthController(IAuthService authService)
+		{
+			_authService = authService;
 		}
 
-        [HttpPost("register")]
-		public async Task<ActionResult<User>> Register(UserDto userDto)
+		[HttpPost("register")]
+		public ActionResult<string> Register(UserDto userDto)
 		{
-			string passwordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
+			string result = _authService.Register(userDto);
 
-			user.Name = userDto.Name;
-			user.PasswordHash = passwordHash;
-
-			return Ok(user.Name);
+			return Ok(result);
 		}
 
 		[HttpPost("login")]
-		public async Task<ActionResult<string>> Login(UserDto userDto)
+		public ActionResult<string> Login(UserDto userDto)
 		{
-			if (userDto.Name != user.Name || !BCrypt.Net.BCrypt.Verify(userDto.Password, user.PasswordHash))
-			{
+			string? result = _authService.Login(userDto);
+
+			if (result is null)
 				return BadRequest("Invalid credentials!");
-			}
 
-			string token = GenerateToken(user);
-			return Ok(token);
+			return Ok(result);
 		}
 
-		private string GenerateToken(User user)
-		{
-			List<Claim> claims = new()
-			{
-				new Claim(ClaimTypes.Name, user.Name)
-			};
 
-			SymmetricSecurityKey key = new(System.Text.Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:JwtKey").Value!));
-
-			SigningCredentials cred = new(key, SecurityAlgorithms.HmacSha512Signature);
-
-			JwtSecurityToken token = new(
-				claims: claims,
-				expires: DateTime.Now.AddDays(1),
-				signingCredentials: cred
-				);
-
-			string jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-			return jwt;
-		}
 	}
 }

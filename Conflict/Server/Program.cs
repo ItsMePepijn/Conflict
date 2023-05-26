@@ -1,3 +1,6 @@
+global using Conflict.Shared.Models;
+global using Conflict.Shared.Dto;
+global using Conflict.Server.Services.AuthService;
 using Conflict.Server.Hubs;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.IdentityModel.Tokens;
@@ -43,6 +46,8 @@ builder.Services.AddResponseCompression(opts =>
     opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
         new[] { "application/octet-stream" });
 });
+
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 
