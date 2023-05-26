@@ -27,7 +27,6 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
 });
 builder.Services.AddSwaggerGen(option =>
 {
-	option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
 	option.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
 	{
 		In = ParameterLocation.Header,
