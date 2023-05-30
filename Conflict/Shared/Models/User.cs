@@ -3,7 +3,7 @@ namespace Conflict.Shared.Models
 {
     public class User
     {
-        public long Id { get; set; } = FlakeId.Id.Create();
+        public long Id { get; set; } = 0;
 
         public string Name { get; set; } = string.Empty;
 
