@@ -11,12 +11,12 @@ namespace Conflict.Server.Hubs
             User User = new()
             {
                 Name = "Username",
-                //Id = Id.Create()
+                Id = Id.Create()
             };
             Message Message = new()
             {
                 Content = content,
-                //Id = Id.Create(),
+                Id = Id.Create(),
                 Author = User,
             };
 
