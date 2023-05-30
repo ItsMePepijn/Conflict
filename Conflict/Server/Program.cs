@@ -12,6 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+if (builder.Configuration.GetSection("AppSettings:JwtKey").Value is null)
+	throw new Exception("JwtKey is not set!");
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddAuthentication().AddJwtBearer(options =>
