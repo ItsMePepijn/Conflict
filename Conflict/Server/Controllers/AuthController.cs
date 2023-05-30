@@ -14,10 +14,11 @@ namespace Conflict.Server.Controllers
 		}
 
 		[HttpPost("register")]
-		public ActionResult<string> Register(UserDto userDto)
+		public async Task<ActionResult<string>> Register(UserDto userDto)
 		{
-			string result = _authService.Register(userDto);
+			var result = await _authService.Register(userDto);
 
+			// TODO: fix always returning Ok()
 			return Ok(result);
 		}
 

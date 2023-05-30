@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Conflict.Server.Data;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -6,39 +7,54 @@ namespace Conflict.Server.Services.AuthService
 {
 	public class AuthService : IAuthService
 	{
-		public static User user = new();
-		public IConfiguration _config { get; }
+		private IConfiguration _config { get; }
+		private readonly DataContext _dataContext;
 
-		public AuthService(IConfiguration config)
+		public AuthService(IConfiguration config, DataContext dataContext)
 		{
 			_config = config;
+			_dataContext = dataContext;
 		}
-		public string Register(UserDto userDto)
+
+		public async Task<string> Register(UserDto userDto)
 		{
+			// Checks if username already exists
+			User? dbUser = _dataContext.Users.SingleOrDefault(user => user.Name == userDto.Name);
+			if (dbUser is not null)
+				return "Username already exists!";
+
+			// Hash password and create a new user object
 			string passwordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
+			User NewUser = new()
+			{
+				Name = userDto.Name,
+				PasswordHash = passwordHash,
+			};
 
-			user.Name = userDto.Name;
-			user.PasswordHash = passwordHash;
+			_dataContext.Add(NewUser);
+			await _dataContext.SaveChangesAsync();
 
-			return user.Name;
+			return NewUser.Name;
 		}
 
 		public string? Login(UserDto userDto)
 		{
-			if (userDto.Name != user.Name || !BCrypt.Net.BCrypt.Verify(userDto.Password, user.PasswordHash))
+			// Verify user info
+			User dbUser = _dataContext.Users.SingleOrDefault(user => user.Name == userDto.Name)!;
+			if (dbUser.Name != userDto.Name || !BCrypt.Net.BCrypt.Verify(userDto.Password, dbUser.PasswordHash))
 			{
 				return null;
 			}
 
-			string token = GenerateToken(user);
+			string token = GenerateToken(dbUser);
 			return token;
 		}
-
 
 		private string GenerateToken(User user)
 		{
 			List<Claim> claims = new()
 			{
+				// TODO: add user id to claims
 				new Claim(ClaimTypes.Name, user.Name)
 			};
 
