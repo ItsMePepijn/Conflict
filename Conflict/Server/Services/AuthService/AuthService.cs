@@ -54,7 +54,7 @@ namespace Conflict.Server.Services.AuthService
 		{
 			List<Claim> claims = new()
 			{
-				// TODO: add user id to claims
+				new Claim("id", user.Id.ToString()),
 				new Claim(ClaimTypes.Name, user.Name)
 			};
 
