@@ -7,16 +7,18 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
+using Conflict.Server.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 if (builder.Configuration.GetSection("AppSettings:JwtKey").Value is null)
 	throw new Exception("JwtKey is not set!");
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+// Jwt token validation
 builder.Services.AddAuthentication().AddJwtBearer(options =>
 {
 	options.TokenValidationParameters = new TokenValidationParameters
@@ -28,6 +30,8 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
 				builder.Configuration.GetSection("AppSettings:JwtKey").Value!))
 	};
 });
+
+// Authentication support for swagger
 builder.Services.AddSwaggerGen(option =>
 {
 	option.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
@@ -42,6 +46,8 @@ builder.Services.AddSwaggerGen(option =>
 	option.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
+
+// SignalR configuration
 builder.Services.AddSignalR();
 builder.Services.AddResponseCompression(opts =>
 {
@@ -50,6 +56,13 @@ builder.Services.AddResponseCompression(opts =>
 });
 
 builder.Services.AddScoped<IAuthService, AuthService>();
+
+// Database configuration
+string? connectionString = builder.Configuration.GetConnectionString("PlanetScaleDbConnection");
+builder.Services.AddDbContext<DataContext>(options =>
+{
+	options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+});
 
 var app = builder.Build();
 
