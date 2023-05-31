@@ -1,0 +1,17 @@
+﻿@inject HttpClient Http
+@inject AuthenticationStateProvider AuthStateProvider
+@inject ILocalStorageService LocalStorage
+
+<AuthorizeView>
+	<Authorized>
+		<button @onclick="SignOut">Logout</button>
+	</Authorized>
+</AuthorizeView>
+
+@code {
+	public async void SignOut()
+	{
+		await LocalStorage.RemoveItemAsync("token");
+		await AuthStateProvider.GetAuthenticationStateAsync();
+	}
+}
