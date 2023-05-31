@@ -1,0 +1,13 @@
+﻿@inject HttpClient Http
+@inject AuthenticationStateProvider AuthStateProvider
+@inject ILocalStorageService LocalStorage
+
+<h3>Login</h3>
+
+<EditForm Model="user" OnSubmit="HandleLogin">
+    <label for="username">Name</label>
+    <InputText id="username" @bind-Value="user.Name" />
+    <label for="password">Password</label>
+    <InputText id="password" @bind-Value="user.Password" type="password" />
+    <button type="submit" class="btn btn-primary">Do it!</button>
+</EditForm>
