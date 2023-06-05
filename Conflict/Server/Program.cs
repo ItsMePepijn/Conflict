@@ -10,6 +10,8 @@ using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Conflict.Server.Data;
+using Conflict.Server.Services.ChannelsService;
+using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +59,7 @@ builder.Services.AddResponseCompression(opts =>
 });
 
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IChannelsService, ChannelsService>();
 
 // Database configuration
 string? connectionString = builder.Configuration.GetConnectionString("PlanetScaleDbConnection");
