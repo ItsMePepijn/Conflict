@@ -1,5 +1,6 @@
 global using Conflict.Shared.Models;
 global using Conflict.Shared.Dto;
+global using Conflict.Shared.DbModels;
 global using Conflict.Server.Services.AuthService;
 using Conflict.Server.Hubs;
 using Microsoft.AspNetCore.ResponseCompression;

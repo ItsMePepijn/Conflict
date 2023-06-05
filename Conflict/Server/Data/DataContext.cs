@@ -9,6 +9,6 @@ namespace Conflict.Server.Data
 
 		}
 
-		public DbSet<User> Users { get; set; }
+		public DbSet<DbUser> Users { get; set; }
 	}
 }

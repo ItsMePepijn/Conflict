@@ -19,13 +19,13 @@ namespace Conflict.Server.Services.AuthService
 		public async Task<string> Register(UserDto userDto)
 		{
 			// Checks if username already exists
-			User? dbUser = _dataContext.Users.SingleOrDefault(user => user.Name == userDto.Name);
+			DbUser? dbUser = _dataContext.Users.SingleOrDefault(user => user.Name == userDto.Name);
 			if (dbUser is not null)
 				return "Username already exists!";
 
 			// Hash password and create a new user object
 			string passwordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
-			User NewUser = new()
+			DbUser NewUser = new()
 			{
 				Name = userDto.Name,
 				PasswordHash = passwordHash,
@@ -40,7 +40,7 @@ namespace Conflict.Server.Services.AuthService
 		public string? Login(UserDto userDto)
 		{
 			// Verify user info
-			User dbUser = _dataContext.Users.SingleOrDefault(user => user.Name == userDto.Name)!;
+			DbUser dbUser = _dataContext.Users.SingleOrDefault(user => user.Name == userDto.Name)!;
 			if (dbUser.Name != userDto.Name || !BCrypt.Net.BCrypt.Verify(userDto.Password, dbUser.PasswordHash))
 			{
 				return null;
@@ -50,7 +50,7 @@ namespace Conflict.Server.Services.AuthService
 			return token;
 		}
 
-		private string GenerateToken(User user)
+		private string GenerateToken(DbUser user)
 		{
 			List<Claim> claims = new()
 			{
