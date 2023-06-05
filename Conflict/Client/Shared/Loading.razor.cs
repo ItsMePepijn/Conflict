@@ -14,20 +14,20 @@ namespace Conflict.Client.Shared
 		protected override void OnInitialized()
 		{
 
-				int delay = 400;
-				Timer timer = new Timer((object? stateInfo) =>
+			int delay = 400;
+			Timer timer = new Timer((object? stateInfo) =>
+			{
+				if (IsLoading)
 				{
-					if (IsLoading)
-					{
-						if (Dots.Length < 3)
-							Dots += ".";
-						else
-							Dots = ".";
-					}
-					else Dots = string.Empty;
+					if (Dots.Length < 3)
+						Dots += ".";
+					else
+						Dots = ".";
+				}
+				else Dots = string.Empty;
 
-					StateHasChanged();
-				}, new AutoResetEvent(false), delay, delay);
+				StateHasChanged();
+			}, new AutoResetEvent(false), delay, delay);
 		}
 
 		private void Reload()
