@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
 using System.Net.Http.Headers;
 using System.Security.Claims;
-using System.Text.Json;
+using Conflict.Shared;
 using Blazored.LocalStorage;
 
 
@@ -27,9 +27,8 @@ namespace Conflict.Client
 
 			if (!string.IsNullOrEmpty(token))
 			{
-				identity = new ClaimsIdentity(ParseClaimsFromJwt(token), "jwt");
-				_http.DefaultRequestHeaders.Authorization =
-					new AuthenticationHeaderValue(token.Replace("\"", ""));
+				identity = new ClaimsIdentity(JwtProvider.ParseClaimsFromJwt(token), "jwt");
+				_http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Replace("\"", ""));
 			}
 
             ClaimsPrincipal user = new(identity);
@@ -38,25 +37,6 @@ namespace Conflict.Client
 			NotifyAuthenticationStateChanged(Task.FromResult(state));
 
 			return state;
-		}
-
-		public static IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
-		{
-            string payload = jwt.Split('.')[1];
-			byte[] jsonBytes = ParseBase64WithoutPadding(payload);
-			var keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes)!;
-
-			return keyValuePairs.Select(kvp => new Claim(kvp.Key, kvp.Value.ToString()!));
-		}
-
-		private static byte[] ParseBase64WithoutPadding(string base64)
-		{
-			switch (base64.Length % 4)
-			{
-				case 2: base64 += "=="; break;
-				case 3: base64 += "="; break;
-			}
-			return Convert.FromBase64String(base64);
 		}
 	}
 }
