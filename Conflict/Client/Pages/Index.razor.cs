@@ -1,15 +1,11 @@
-﻿using Conflict.Shared.Models;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.SignalR.Client;
+﻿using Microsoft.AspNetCore.SignalR.Client;
 
 namespace Conflict.Client.Pages
 {
     partial class Index
 	{
 		private HubConnection? hubConnection;
-		private readonly List<Message> messages = new List<Message>();
-		private readonly string user = "Username";
-		private string? messageInput;
+		public bool IsConnected => hubConnection?.State == HubConnectionState.Connected;
 
 		private string loadingMsg = "Connecting to server";
 		private bool isLoading = true;
@@ -20,13 +16,6 @@ namespace Conflict.Client.Pages
 				.WithUrl(Navigation.ToAbsoluteUri("/chathub"))
 				.WithAutomaticReconnect(new RetryPolicy())
 				.Build();
-
-
-			hubConnection.On<Message>("ReceiveMessage", (message) =>
-			{
-				messages.Add(message);
-				StateHasChanged();
-			});
 
 			hubConnection.Reconnecting += error =>
 			{
@@ -49,33 +38,6 @@ namespace Conflict.Client.Pages
 			};
 
 			await hubConnection.StartAsync();
-		}
-
-		private async Task Send()
-		{
-			if (hubConnection is not null && !string.IsNullOrEmpty(messageInput))
-			{
-				await hubConnection.SendAsync("SendMessage", user, messageInput);
-				messageInput = string.Empty;
-			}
-		}
-
-		public bool IsConnected =>
-			hubConnection?.State == HubConnectionState.Connected;
-
-		public async ValueTask DisposeAsync()
-		{
-			if (hubConnection is not null)
-			{
-				await hubConnection.DisposeAsync();
-			}
-		}
-		public async Task Enter(KeyboardEventArgs e)
-		{
-			if (e.Code == "Enter" || e.Code == "NumpadEnter")
-			{
-				await Send();
-			}
 		}
 	}
 }

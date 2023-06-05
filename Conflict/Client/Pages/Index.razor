@@ -1,29 +1,13 @@
 ﻿@page "/"
-@using Microsoft.AspNetCore.SignalR.Client
-@using Conflict.Shared
+@attribute [Authorize]
 @inject NavigationManager Navigation
-@implements IAsyncDisposable
+@using Microsoft.AspNetCore.SignalR.Client
 
 <PageTitle>Index</PageTitle>
 
-
-
 @if(IsConnected)
 {
-<div>
-    <input @bind-value="messageInput" @bind-value:event="oninput" @onkeydown="Enter" />
-    <button @onclick="Send" disabled="@(!IsConnected)">Send</button>
-</div>
-
-<br>
-<hr>
-
-<ul>
-    @foreach (var message in messages)
-    {
-        <li>@message.Author.Name :: @message.Content</li>
-    }
-</ul>
+    <MessageArea HubConnection="@hubConnection"/>
 }
 else
 {
