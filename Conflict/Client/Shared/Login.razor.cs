@@ -11,7 +11,6 @@ namespace Conflict.Client.Shared
         {
             var result = await Http.PostAsJsonAsync("api/auth/login", user);
             var token = await result.Content.ReadAsStringAsync();
-            Console.WriteLine(token);
             await LocalStorage.SetItemAsync("token", token);
             await AuthStateProvider.GetAuthenticationStateAsync();
         }
