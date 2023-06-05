@@ -10,5 +10,6 @@ namespace Conflict.Server.Data
 		}
 
 		public DbSet<DbUser> Users { get; set; }
+		public DbSet<Channel> Channels { get; set; }
 	}
 }
