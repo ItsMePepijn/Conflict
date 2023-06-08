@@ -1,0 +1,27 @@
+﻿@inject HttpClient Http
+@inject ChannelStateProvider ChannelState
+@inject HubConnectionProvider ConnectionProvider
+
+<div class="message-area">
+    @if(ChannelState.Id is null)
+    {
+        <p>Select a channel</p>
+    }
+    else if(messages is null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        <ul class="message-list">
+            @foreach (Message message in messages)
+            {
+                <li>@message.Author!.Name :: @message.Content</li>
+            }
+        </ul>
+        <div class="message-box">
+            <input @bind-value="messageInput" @bind-value:event="oninput" @onkeydown="Enter" />
+            <button @onclick="Send" disabled="@(!IsConnected)">Send</button>
+        </div>
+    }
+</div>
