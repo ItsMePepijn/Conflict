@@ -4,40 +4,23 @@ namespace Conflict.Client.Pages
 {
     partial class Index
 	{
-		private HubConnection? hubConnection;
-		public bool IsConnected => hubConnection?.State == HubConnectionState.Connected;
-
-		private string loadingMsg = "Connecting to server";
-		private bool isLoading = true;
+		public bool IsConnected => ConnectionProvider.HubConnection?.State == HubConnectionState.Connected;
 
 		protected override async Task OnInitializedAsync()
 		{
-			hubConnection = new HubConnectionBuilder()
-				.WithUrl(Navigation.ToAbsoluteUri("/chathub"))
-				.WithAutomaticReconnect(new RetryPolicy())
-				.Build();
-
-			hubConnection.Reconnecting += error =>
+			ConnectionProvider.HubConnection.Reconnecting += error =>
 			{
 				StateHasChanged();
 				return Task.CompletedTask;
 			};
 
-			hubConnection.Reconnected += connectionId =>
+			ConnectionProvider.HubConnection.Reconnected += connectionId =>
 			{
 				StateHasChanged();
 				return Task.CompletedTask;
 			};
 
-			hubConnection.Closed += Exception =>
-			{
-				loadingMsg = "Failed to connect";
-				isLoading = false;
-				StateHasChanged();
-				return Task.CompletedTask;
-			};
-
-			await hubConnection.StartAsync();
+			await ConnectionProvider.HubConnection.StartAsync();
 		}
 	}
 }

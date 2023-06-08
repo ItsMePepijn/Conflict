@@ -1,17 +1,21 @@
 ﻿@page "/"
 @attribute [Authorize]
 @inject NavigationManager Navigation
-@using Microsoft.AspNetCore.SignalR.Client
+@inject HubConnectionProvider ConnectionProvider
+@using Conflict.Client.Shared.App
 
 <PageTitle>Index</PageTitle>
 
 @if(IsConnected)
 {
-    <MessageArea HubConnection="@hubConnection"/>
+    <main class="container">
+        <ChannelList />
+        <MessageArea />
+    </main>
 }
 else
 {
-    <Loading Message="@loadingMsg" IsLoading="@isLoading" />
+    <Loading />
 }
 
 
