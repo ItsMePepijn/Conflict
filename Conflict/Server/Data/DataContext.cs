@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 
 namespace Conflict.Server.Data
 {
@@ -11,5 +12,6 @@ namespace Conflict.Server.Data
 
 		public DbSet<DbUser> Users { get; set; }
 		public DbSet<Channel> Channels { get; set; }
+		public DbSet<Message> Messages { get; set; }
 	}
 }
