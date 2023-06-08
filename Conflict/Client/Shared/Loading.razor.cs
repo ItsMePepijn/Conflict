@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
-
-
+﻿
 namespace Conflict.Client.Shared
 {
 	partial class Loading
 	{
-		[Parameter]
-		public string Message { get; set; } = string.Empty;
-		[Parameter]
+		public string Message { get; set; } = "Connecting to server";
 		public bool IsLoading { get; set; } = true;
 		public string Dots { get; set; } = string.Empty;
 
@@ -28,6 +24,14 @@ namespace Conflict.Client.Shared
 
 				StateHasChanged();
 			}, new AutoResetEvent(false), delay, delay);
+
+			ConnectionProvider.HubConnection.Closed += Exception =>
+			{
+				Message = "Failed to connect";
+				IsLoading = false;
+				StateHasChanged();
+				return Task.CompletedTask;
+			};
 		}
 
 		private void Reload()
