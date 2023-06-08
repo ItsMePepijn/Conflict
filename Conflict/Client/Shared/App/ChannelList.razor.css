@@ -1,0 +1,12 @@
+﻿.channel-list{
+    width: 240px;
+    padding: 5px;
+    height: 100%;
+}
+
+.channel{
+    background: red;
+    padding: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
