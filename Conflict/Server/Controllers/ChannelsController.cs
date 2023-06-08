@@ -29,7 +29,7 @@ namespace Conflict.Server.Controllers
         }
 
         [HttpPost("{id}/messages")]
-        public async Task<ActionResult<Message>> SendMessage(MessageDto messageDto)
+        public async Task<ActionResult<Message>> SendMessage(MessageDto messageDto, long id)
         {
             IEnumerable<Claim> claims = JwtProvider.ParseClaimsFromJwt(Request.Headers.Authorization!);
             User user = new()
@@ -37,7 +37,7 @@ namespace Conflict.Server.Controllers
                 Id = long.Parse(claims.Where(claim => claim.Type == "id").First().Value),
                 Name = claims.Where(claim => claim.Type == ClaimTypes.Name).First().Value
             };
-            Message message = await _channelsService.SendMessageToChannel(messageDto, user);
+            Message message = await _channelsService.SendMessageToChannel(id, messageDto, user);
             return Ok(message);
         }
     }
