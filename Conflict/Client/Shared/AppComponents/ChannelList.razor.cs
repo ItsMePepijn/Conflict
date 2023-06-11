@@ -15,12 +15,13 @@ namespace Conflict.Client.Shared.AppComponents
 			UserId = long.Parse(authState.User.Claims.Where(claim => claim.Type == "id").First().Value);
 			await LoadChannels();
 
-			ConnectionProvider.HubConnection.On<Channel>("ChannelAdded", (channel) =>
+			ConnectionProvider.HubConnection.On<Channel>("ChannelAdded", async (channel) =>
 			{
 				if (Channels is not null)
 				{
 					Channels.Add(channel);
 					StateHasChanged();
+					await LoadChannels();
 				}
 			});
 
