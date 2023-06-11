@@ -2,7 +2,7 @@
 {
 	public interface IAuthService
 	{
-		Task<string> Register(UserDto userDto);
-		string? Login(UserDto userDto);
+		Task<string> Register(UserLoginDto userDto);
+		string? Login(UserLoginDto userDto);
 	}
 }
