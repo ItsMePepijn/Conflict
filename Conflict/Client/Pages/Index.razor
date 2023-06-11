@@ -2,7 +2,6 @@
 @attribute [Authorize]
 @inject NavigationManager Navigation
 @inject HubConnectionProvider ConnectionProvider
-@using Conflict.Client.Shared.App
 @using Conflict.Client.Shared.AppComponents
 
 <PageTitle>Index</PageTitle>
@@ -15,6 +14,7 @@
             <MessageArea />
         </main>
     </div>
+    <AddChannelModal />
 }
 else
 {

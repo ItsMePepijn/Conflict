@@ -1,0 +1,26 @@
+﻿@inject AddChannelModalStateProvider StateProvider
+@inject HttpClient Http
+
+@if (StateProvider.CurrentState == AddChannelModalStateProvider.States.Shown)
+{
+	string canSend = string.Empty;
+	<div class="modal-container" @onmouseup="CloseModal">
+		<div class="modal-content" onmouseup="event.stopPropagation()">
+			<div class="text">
+				<h3>Create Cannel</h3>
+				<label>Channel Name</label>
+				<br>
+				<div class="input">
+					<img src="/hashtag.svg"/>
+					<input placeholder="New Channel" maxlength="20" @bind-value="@channelName" @bind-value:event="oninput" @onkeydown="KeyDown">
+				</div>
+			</div>
+
+			<div class="buttons">
+				<button class="button can-press" @onclick="CloseModal" text>Cancel</button>
+				@if (channelName.Length > 0) canSend = "can-press";
+				<button class="button primary @canSend" @onclick="CreateChannel">Create</button>
+			</div>
+		</div>
+	</div>
+}
