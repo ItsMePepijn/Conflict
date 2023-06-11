@@ -32,7 +32,8 @@ namespace Conflict.Server.Services.ChannelsService
             Channel channel = new()
             {
                 Id = FlakeId.Id.Create(),
-                Name = channelDto.Name
+                Name = channelDto.Name,
+                OwnerId = channelDto.OwnerId,
             };
 
             _dataContext.Channels.Add(channel);
@@ -48,7 +49,6 @@ namespace Conflict.Server.Services.ChannelsService
             try
             {
                 channel = _dataContext.Channels.Where(c => c.Id == channelId).Single();
-
 
                 _dataContext.Channels.Remove(channel);
                 await _dataContext.SaveChangesAsync();
