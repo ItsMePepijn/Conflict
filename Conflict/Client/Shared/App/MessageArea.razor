@@ -7,19 +7,23 @@
     {
         <p>Select a channel</p>
     }
-    else if(messages is null)
-    {
-        <p>Loading...</p>
-    }
     else
     {
         string isActive = string.Empty;
-        <ul class="message-list">
-            @foreach (MessageDto message in messages)
-            {
-                <li>@message.Author!.Name :: @message.Content</li>
-            }
-        </ul>
+        @if(messages is null)
+        {
+            <p>Loading...</p>
+        }
+        else
+        {
+            <ul class="message-list">
+                @foreach (MessageDto message in messages)
+                {
+                        <li class="message">@message.Author!.Name :: @message.Content</li>
+                }
+            </ul>
+        }
+        
         <div class="message-box">
             <input placeholder="Message @ChannelState.CurrentChannel?.Name" @bind-value="messageInput" @bind-value:event="oninput" @onkeydown="Enter" />
             <div class="box-right">
