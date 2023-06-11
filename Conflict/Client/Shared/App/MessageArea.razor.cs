@@ -36,8 +36,8 @@ namespace Conflict.Client.Shared.App
                     Content = messageInput
                 };
 
-                await Http.PostAsJsonAsync($"api/channels/{ChannelState.Id}/messages", message);
                 messageInput = string.Empty;
+                await Http.PostAsJsonAsync($"api/channels/{ChannelState.CurrentChannel?.Id}/messages", message);
             }
 
         }
