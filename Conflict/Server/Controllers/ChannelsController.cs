@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Conflict.Server.Services.ChannelsService;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Conflict.Shared;
-using Conflict.Server.Services.ChannelsService;
 
 namespace Conflict.Server.Controllers
 {
@@ -28,23 +29,16 @@ namespace Conflict.Server.Controllers
         }
 
         [HttpPost("{id}/messages")]
-        public async Task<ActionResult<MessageDto>> SendMessage(SendMessageDto messageDto, long id)
+        public async Task<ActionResult<Message>> SendMessage(MessageDto messageDto, long id)
         {
             IEnumerable<Claim> claims = JwtProvider.ParseClaimsFromJwt(Request.Headers.Authorization!);
-            long userId = long.Parse(claims.Where(claim => claim.Type == "id").First().Value);
-
-            MessageDto message = await _channelsService.SendMessageToChannel(id, messageDto, userId);
+            User user = new()
+            {
+                Id = long.Parse(claims.Where(claim => claim.Type == "id").First().Value),
+                Name = claims.Where(claim => claim.Type == ClaimTypes.Name).First().Value
+            };
+            Message message = await _channelsService.SendMessageToChannel(id, messageDto, user);
             return Ok(message);
-        }
-
-        [HttpGet("{id}/messages")]
-        public ActionResult<List<MessageDto>> GetMessagesFromChannel(long id)
-        {
-            List<MessageDto> messages = _channelsService.GetMessagesFromChannel(id);
-            if (messages is null)
-                return BadRequest();
-
-            return Ok(messages);
         }
     }
 }

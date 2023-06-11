@@ -18,7 +18,26 @@ namespace Conflict.Server.Migrations
                 .HasAnnotation("ProductVersion", "7.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Conflict.Shared.DbModels.DbChannel", b =>
+            modelBuilder.Entity("Conflict.Shared.DbModels.DbUser", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Conflict.Shared.Models.Channel", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,7 +52,7 @@ namespace Conflict.Server.Migrations
                     b.ToTable("Channels");
                 });
 
-            modelBuilder.Entity("Conflict.Shared.DbModels.DbMessage", b =>
+            modelBuilder.Entity("Conflict.Shared.Models.Message", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -56,7 +75,7 @@ namespace Conflict.Server.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("Conflict.Shared.DbModels.DbUser", b =>
+            modelBuilder.Entity("Conflict.Shared.Models.User", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,18 +85,14 @@ namespace Conflict.Server.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("User");
                 });
 
-            modelBuilder.Entity("Conflict.Shared.DbModels.DbMessage", b =>
+            modelBuilder.Entity("Conflict.Shared.Models.Message", b =>
                 {
-                    b.HasOne("Conflict.Shared.DbModels.DbUser", "Author")
+                    b.HasOne("Conflict.Shared.Models.User", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)

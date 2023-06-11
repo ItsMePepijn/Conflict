@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
+using System.Reflection.Metadata;
 
 namespace Conflict.Server.Data
 {
@@ -9,12 +9,8 @@ namespace Conflict.Server.Data
 		{
 
 		}
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
-		{
-        }
 
-
-		public DbSet<User> Users { get; set; }
+		public DbSet<DbUser> Users { get; set; }
 		public DbSet<Channel> Channels { get; set; }
 		public DbSet<Message> Messages { get; set; }
 	}

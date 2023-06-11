@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Conflict.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230608124719_TestMigr")]
-    partial class TestMigr
+    [Migration("20230606130859_Messagesv2")]
+    partial class Messagesv2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

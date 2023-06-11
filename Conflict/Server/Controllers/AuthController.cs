@@ -14,7 +14,7 @@ namespace Conflict.Server.Controllers
 		}
 
 		[HttpPost("register")]
-		public async Task<ActionResult<string>> Register(UserLoginDto userDto)
+		public async Task<ActionResult<string>> Register(UserDto userDto)
 		{
 			var result = await _authService.Register(userDto);
 
@@ -23,7 +23,7 @@ namespace Conflict.Server.Controllers
 		}
 
 		[HttpPost("login")]
-		public ActionResult<string> Login(UserLoginDto userDto)
+		public ActionResult<string> Login(UserDto userDto)
 		{
 			string? result = _authService.Login(userDto);
 
