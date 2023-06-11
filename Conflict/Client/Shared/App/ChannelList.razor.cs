@@ -29,12 +29,12 @@ namespace Conflict.Client.Shared.App
             ChannelState.OnChange += StateHasChanged;
         }
 
-        public void HandleChannelClick(long channelId)
+        public void HandleChannelClick(Channel channel)
         {
-            if (ChannelState.Id == channelId)
+            if (ChannelState.CurrentChannel == channel)
                 ChannelState.SetChannel(null);
             else
-                ChannelState.SetChannel(channelId);
+                ChannelState.SetChannel(channel);
 
 		}
     }

@@ -17,7 +17,7 @@ namespace Conflict.Client.Shared.App
 
 			ConnectionProvider.HubConnection.On<MessageDto>("ReceiveMessage", (message) =>
             {
-                if (messages is not null && message.ChannelId == ChannelState.Id)
+                if (messages is not null && message.ChannelId == ChannelState.CurrentChannel?.Id)
                 {
                     messages.Insert(0, message);
                     StateHasChanged();
@@ -27,8 +27,9 @@ namespace Conflict.Client.Shared.App
 
         private async Task Send()
         {
-            if (ConnectionProvider.HubConnection is not null && ChannelState.Id is not null && !string.IsNullOrEmpty(messageInput))
+            if (ConnectionProvider.HubConnection is not null && ChannelState.CurrentChannel?.Id is not null && !string.IsNullOrEmpty(messageInput))
             {
+
                 SendMessageDto message = new()
                 {
                     Content = messageInput
@@ -50,9 +51,9 @@ namespace Conflict.Client.Shared.App
         public async void LoadMessages()
         {
             StateHasChanged();
-            if (ChannelState.Id is not null)
+            if (ChannelState.CurrentChannel?.Id is not null)
             {
-                MessageDto[]? result = await Http.GetFromJsonAsync<MessageDto[]>($"api/channels/{ChannelState.Id}/messages");
+                MessageDto[]? result = await Http.GetFromJsonAsync<MessageDto[]>($"api/channels/{ChannelState.CurrentChannel?.Id}/messages");
                 if (result is not null)
                 {
                     messages = new();

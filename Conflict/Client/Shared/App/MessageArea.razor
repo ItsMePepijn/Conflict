@@ -3,7 +3,7 @@
 @inject HubConnectionProvider ConnectionProvider
 
 <div class="message-area">
-    @if(ChannelState.Id is null)
+    @if(ChannelState.CurrentChannel is null)
     {
         <p>Select a channel</p>
     }

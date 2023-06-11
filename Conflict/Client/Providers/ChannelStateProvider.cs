@@ -1,14 +1,16 @@
-﻿namespace Conflict.Client.Providers
+﻿using Conflict.Shared.Models;
+
+namespace Conflict.Client.Providers
 {
     public class ChannelStateProvider
     {
-        public long? Id { get; private set; } = null;
+        public Channel? CurrentChannel { get; private set; } = null;
 
         public event Action? OnChange;
 
-        public void SetChannel(long? channelId)
+        public void SetChannel(Channel? channel)
         {
-            Id = channelId;
+            CurrentChannel = channel;
             NotifyStateChanged();
         }
 

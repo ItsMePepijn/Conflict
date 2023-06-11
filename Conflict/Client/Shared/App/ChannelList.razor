@@ -14,8 +14,8 @@
 			foreach (Channel channel in Channels)
 			{
 				string isActive = string.Empty;
-				@if (ChannelState.Id == channel.Id) isActive = "active";
-				<div class="channel @isActive" @onclick="() => HandleChannelClick(channel.Id)">
+				@if (ChannelState.CurrentChannel?.Id == channel.Id) isActive = "active";
+				<div class="channel @isActive" @onclick="() => HandleChannelClick(channel)">
 					<img class="channel-icon" src="/hashtag.svg">
 					<p>@channel.Name</p>
 				</div>
