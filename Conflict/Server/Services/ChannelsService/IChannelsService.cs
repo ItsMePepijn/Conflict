@@ -5,6 +5,7 @@ namespace Conflict.Server.Services.ChannelsService
     {
         List<Channel> GetAllChannels();
         Task<Channel> CreateChannel(CreateChannelDto channelDto);
+        Task<Channel?> DeleteChannel(long channelId);
         Task<MessageDto> SendMessageToChannel(long channelToSendTo, SendMessageDto messageDto, long userId);
         List<MessageDto> GetMessagesFromChannel(long channelId);
 

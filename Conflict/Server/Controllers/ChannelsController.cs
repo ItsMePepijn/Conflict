@@ -34,6 +34,16 @@ namespace Conflict.Server.Controllers
             return Ok(channel);
         }
 
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Channel>> DeleteChannel(long id)
+        {
+            Channel? deletedChannel = await _channelsService.DeleteChannel(id);
+            if (deletedChannel is null)
+                return BadRequest();
+
+            return Ok(deletedChannel);
+        }
+
         [HttpPost("{id}/messages")]
         public async Task<ActionResult<MessageDto>> SendMessage(SendMessageDto messageDto, long id)
         {

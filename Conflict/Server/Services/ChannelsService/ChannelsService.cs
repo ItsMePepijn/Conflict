@@ -42,6 +42,28 @@ namespace Conflict.Server.Services.ChannelsService
             return channel;
         }
 
+        public async Task<Channel?> DeleteChannel(long channelId)
+        {
+            Channel channel;
+            try
+            {
+                channel = _dataContext.Channels.Where(c => c.Id == channelId).Single();
+
+                await _chatHub.Clients.All.SendAsync("ChannelInfoChanged");
+
+                _dataContext.Channels.Remove(channel);
+                await _dataContext.Messages.Where(m => m.ChannelId == channelId).ExecuteDeleteAsync();
+                await _dataContext.SaveChangesAsync();
+
+			}
+            catch (Exception)
+            {
+                return null;
+            }
+
+            return channel;
+        }
+
         public async Task<MessageDto> SendMessageToChannel(long channelToSendTo, SendMessageDto messageDto, long userId)
         {
             Message message = new()
