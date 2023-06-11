@@ -64,3 +64,8 @@
     flex-direction: column-reverse;
     padding-bottom: 15px;
 }
+
+
+    .message-list::-webkit-scrollbar-track {
+        margin-bottom: 10px;
+    }
