@@ -5,7 +5,7 @@ namespace Conflict.Client.Shared
 {
 	partial class Login
 	{
-        UserDto user = new();
+        UserLoginDto user = new();
 
         async Task HandleLogin()
         {
