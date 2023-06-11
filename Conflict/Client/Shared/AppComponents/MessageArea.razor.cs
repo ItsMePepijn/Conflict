@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.SignalR.Client;
 using System.Net.Http.Json;
 
-namespace Conflict.Client.Shared.App
+namespace Conflict.Client.Shared.AppComponents
 {
     partial class MessageArea
     {

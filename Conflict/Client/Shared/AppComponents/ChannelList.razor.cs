@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.SignalR.Client;
 using System.Net.Http.Json;
 
-namespace Conflict.Client.Shared.App
+namespace Conflict.Client.Shared.AppComponents
 {
     partial class ChannelList
     {
@@ -35,7 +35,11 @@ namespace Conflict.Client.Shared.App
                 ChannelState.SetChannel(null);
             else
                 ChannelState.SetChannel(channel);
-
 		}
+
+        public void ShowAddChannel()
+        {
+
+        }
     }
 }
