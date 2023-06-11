@@ -16,16 +16,16 @@ namespace Conflict.Server.Services.AuthService
 			_dataContext = dataContext;
 		}
 
-		public async Task<string> Register(UserDto userDto)
+		public async Task<string> Register(UserLoginDto userDto)
 		{
 			// Checks if username already exists
-			DbUser? dbUser = _dataContext.Users.SingleOrDefault(user => user.Name == userDto.Name);
+			User? dbUser = _dataContext.Users.SingleOrDefault(user => user.Name == userDto.Name);
 			if (dbUser is not null)
 				return "Username already exists!";
 
 			// Hash password and create a new user object
 			string passwordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
-			DbUser NewUser = new()
+			User NewUser = new()
 			{
 				Name = userDto.Name,
 				PasswordHash = passwordHash,
@@ -37,10 +37,10 @@ namespace Conflict.Server.Services.AuthService
 			return NewUser.Name;
 		}
 
-		public string? Login(UserDto userDto)
+		public string? Login(UserLoginDto userDto)
 		{
 			// Verify user info
-			DbUser dbUser = _dataContext.Users.SingleOrDefault(user => user.Name == userDto.Name)!;
+			User dbUser = _dataContext.Users.SingleOrDefault(user => user.Name == userDto.Name)!;
 			if (dbUser.Name != userDto.Name || !BCrypt.Net.BCrypt.Verify(userDto.Password, dbUser.PasswordHash))
 			{
 				return null;
@@ -50,7 +50,7 @@ namespace Conflict.Server.Services.AuthService
 			return token;
 		}
 
-		private string GenerateToken(DbUser user)
+		private string GenerateToken(User user)
 		{
 			List<Claim> claims = new()
 			{
@@ -64,7 +64,7 @@ namespace Conflict.Server.Services.AuthService
 
 			JwtSecurityToken token = new(
 				claims: claims,
-				expires: DateTime.Now.AddDays(1),
+				expires: DateTime.Now.AddDays(999),
 				signingCredentials: cred
 				);
 
