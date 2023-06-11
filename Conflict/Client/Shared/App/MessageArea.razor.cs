@@ -51,6 +51,7 @@ namespace Conflict.Client.Shared.App
 
         public async void ChannelChanged()
         {
+            messages = null;
             StateHasChanged();
             if (ChannelState.CurrentChannel?.Id is not null)
             {
