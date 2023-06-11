@@ -27,6 +27,8 @@ namespace Conflict.Client.Shared.AppComponents
 			ConnectionProvider.HubConnection.On("ChannelInfoChanged", async () =>
 			{
 				await LoadChannels();
+				if(Channels is not null)
+					if (!Channels.Any(c => c.Id == ChannelState.CurrentChannel?.Id)) ChannelState.SetChannel(null);
 			});
 
 
