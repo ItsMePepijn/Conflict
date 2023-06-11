@@ -1,5 +1,4 @@
 ﻿using Conflict.Shared.Models;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using System.Net.Http.Json;
 
@@ -26,6 +25,8 @@ namespace Conflict.Client.Shared.App
                     StateHasChanged();
                 }
             });
+
+            ChannelState.OnChange += StateHasChanged;
         }
 
         public void HandleChannelClick(long channelId)

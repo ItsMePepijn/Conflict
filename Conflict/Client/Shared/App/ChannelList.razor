@@ -2,18 +2,24 @@
 @inject ChannelStateProvider ChannelState
 @inject HubConnectionProvider ConnectionProvider
 
-<div class="channel-list">
-	@if (Channels is null)
-	{
-		<p>Loading channels...</p>
-	}
-	else
-	{
-		foreach (Channel channel in Channels)
+<div class="channel-list-container">
+	<h2>Conflict</h2>
+	<div class="channel-list">
+		@if (Channels is null)
 		{
-			<div class="channel" @onclick="() => HandleChannelClick(channel.Id)">
-				<p>@channel.Name</p>
-			</div>
+			<p>Loading channels...</p>
 		}
-	}
+		else
+		{
+			foreach (Channel channel in Channels)
+			{
+				string isActive = string.Empty;
+				@if (ChannelState.Id == channel.Id) isActive = "active";
+				<div class="channel @isActive" @onclick="() => HandleChannelClick(channel.Id)">
+					<img class="channel-icon" src="/hashtag.svg">
+					<p>@channel.Name</p>
+				</div>
+			}
+		}
+	</div>
 </div>
