@@ -9,7 +9,7 @@ namespace Conflict.Client.Shared.App
 {
     partial class MessageArea
     {
-        private List<Message>? messages = null;
+        private List<MessageDto>? messages = null;
         private string? messageInput;
         private bool IsConnected => ConnectionProvider.HubConnection.State == HubConnectionState.Connected;
 
@@ -17,9 +17,9 @@ namespace Conflict.Client.Shared.App
         {
             ChannelState.OnChange += LoadMessages;
 
-			ConnectionProvider.HubConnection.On<Message>("ReceiveMessage", (message) =>
+			ConnectionProvider.HubConnection.On<MessageDto>("ReceiveMessage", (message) =>
             {
-                if(messages is not null && message.ChannelId == ChannelState.Id)
+                if (messages is not null && message.ChannelId == ChannelState.Id)
                 {
                     messages.Insert(0, message);
                     StateHasChanged();
@@ -31,7 +31,7 @@ namespace Conflict.Client.Shared.App
         {
             if (ConnectionProvider.HubConnection is not null && ChannelState.Id is not null && !string.IsNullOrEmpty(messageInput))
             {
-                MessageDto message = new()
+                SendMessageDto message = new()
                 {
                     Content = messageInput
                 };
@@ -54,7 +54,7 @@ namespace Conflict.Client.Shared.App
             StateHasChanged();
             if (ChannelState.Id is not null)
             {
-                Message[]? result = await Http.GetFromJsonAsync<Message[]>($"api/channels/{ChannelState.Id}/messages");
+                MessageDto[]? result = await Http.GetFromJsonAsync<MessageDto[]>($"api/channels/{ChannelState.Id}/messages");
                 if (result is not null)
                 {
                     messages = new();

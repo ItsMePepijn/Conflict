@@ -14,7 +14,7 @@
     else
     {
         <ul class="message-list">
-            @foreach (Message message in messages)
+            @foreach (MessageDto message in messages)
             {
                 <li>@message.Author!.Name :: @message.Content</li>
             }
