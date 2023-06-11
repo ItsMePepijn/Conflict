@@ -8,7 +8,7 @@ namespace Conflict.Client.Shared.App
     partial class MessageArea
     {
         private List<MessageDto>? messages = null;
-        private string? messageInput;
+        private string? messageInput = string.Empty;
         private bool IsConnected => ConnectionProvider.HubConnection.State == HubConnectionState.Connected;
 
         protected override void OnInitialized()
@@ -42,6 +42,7 @@ namespace Conflict.Client.Shared.App
         }
         public async Task Enter(KeyboardEventArgs e)
         {
+            StateHasChanged();
             if (e.Code == "Enter" || e.Code == "NumpadEnter")
             {
                 await Send();

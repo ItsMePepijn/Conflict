@@ -1,19 +1,66 @@
-﻿.message-area{
+﻿.message-area {
     height: 100%;
     display: flex;
+    width: 80%;
     flex-direction: column;
     justify-content: space-between;
+    background-color: #313338;
+    padding: 5px 5px 15px 15px;
+    font-size: 15px;
+    font-weight: 300;
 }
 
-.message-box{
+.message-box {
     bottom: 0;
+    margin-right: 10px;
+    background-color: #383a40;
+    display: flex;
+    padding: 0 15px;
+    border-radius: 7px;
 }
+
+    .message-box input {
+        all: unset;
+        width: 100%;
+        padding: 10px 0;
+    }
+
+        .message-box input::placeholder {
+            color: white;
+            opacity: 0.3;
+        }
+
+    .message-box .box-right{
+        margin: 10px 0;
+    }
+
+        .message-box .box-right button{
+            all: unset;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+            .message-box .box-right button:hover img.active {
+                cursor: pointer;
+                filter: invert(45%) sepia(88%) saturate(1660%) hue-rotate(213deg) brightness(98%) contrast(96%);
+            }
+
+            .message-box .box-right button img {
+                height: 20px;
+                filter: invert(31%) sepia(12%) saturate(335%) hue-rotate(191deg) brightness(92%) contrast(91%);
+                transition: 0.3s;
+            }
+                .message-box .box-right button img.active {
+                    filter: invert(55%) sepia(68%) saturate(396%) hue-rotate(198deg) brightness(102%) contrast(94%);
+                }
+
+
 
 .message-list {
     overflow-y: scroll;
     overflow-wrap: break-word;
     height: 100%;
-    width: 50vw;
     display: flex;
     flex-direction: column-reverse;
+    padding-bottom: 15px;
 }

@@ -13,6 +13,7 @@
     }
     else
     {
+        string isActive = string.Empty;
         <ul class="message-list">
             @foreach (MessageDto message in messages)
             {
@@ -20,8 +21,11 @@
             }
         </ul>
         <div class="message-box">
-            <input @bind-value="messageInput" @bind-value:event="oninput" @onkeydown="Enter" />
-            <button @onclick="Send" disabled="@(!IsConnected)">Send</button>
+            <input placeholder="Message @ChannelState.CurrentChannel?.Name" @bind-value="messageInput" @bind-value:event="oninput" @onkeydown="Enter" />
+            <div class="box-right">
+                @if (messageInput.Length > 0) isActive = "active";
+                <button @onclick="Send" disabled="@(!IsConnected)"><img class="@isActive" src="/send.svg"/></button>
+            </div>
         </div>
     }
 </div>
