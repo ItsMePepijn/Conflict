@@ -55,6 +55,7 @@ namespace Conflict.Client.Shared.AppComponents
 		public async Task DeleteChannel(long channelId)
 		{
 			ChannelState.SetChannel(null);
+			Channels?.Remove(Channels.Find(c => c.Id == channelId)!);
 			await Http.DeleteAsync($"/api/channels/{channelId}");
 		}
 	}
