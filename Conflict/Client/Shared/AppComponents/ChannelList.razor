@@ -2,6 +2,7 @@
 @inject ChannelStateProvider ChannelState
 @inject AddChannelModalStateProvider AddChannelModalState
 @inject HubConnectionProvider ConnectionProvider
+@inject AuthenticationStateProvider AuthStateProvider
 
 <div class="channel-list-container">
 	<h2>Conflict</h2>
@@ -19,7 +20,10 @@
 				<div class="channel @isActive" @onmouseup="() => HandleChannelClick(channel)">
 					<img class="channel-icon" src="/hashtag.svg">
 					<p>@channel.Name</p>
-					<button class="delete-channel" onmouseup="event.stopPropagation()" @onclick="() => DeleteChannel(channel.Id)"><img src="/trash-icon.svg" /></button>
+					@if(channel.OwnerId == UserId)
+					{
+						<button class="delete-channel" onmouseup="event.stopPropagation()" @onclick="() => DeleteChannel(channel.Id)"><img draggable="false" src="/trash-icon.svg" /></button>
+					}
 				</div>
 			}
 		}

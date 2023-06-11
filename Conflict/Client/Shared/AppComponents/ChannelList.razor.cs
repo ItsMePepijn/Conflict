@@ -7,9 +7,12 @@ namespace Conflict.Client.Shared.AppComponents
 	partial class ChannelList
 	{
 		public List<Channel>? Channels { get; set; } = null;
+		public long UserId { get; set; }
 
 		protected override async Task OnInitializedAsync()
 		{
+			var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+			UserId = long.Parse(authState.User.Claims.Where(claim => claim.Type == "id").First().Value);
 			await LoadChannels();
 
 			ConnectionProvider.HubConnection.On<Channel>("ChannelAdded", (channel) =>

@@ -6,22 +6,28 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Conflict.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class idk : Migration
+    public partial class MessageOwner : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Messages_User_AuthorId",
-                table: "Messages");
 
-            migrationBuilder.DropTable(
-                name: "User");
+            migrationBuilder.AddColumn<long>(
+                name: "OwnerId",
+                table: "Channels",
+                type: "bigint",
+                nullable: false,
+                defaultValue: 0L);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Channels_OwnerId",
+                table: "Channels",
+                column: "OwnerId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Messages_Users_AuthorId",
-                table: "Messages",
-                column: "AuthorId",
+                name: "FK_Channels_Users_OwnerId",
+                table: "Channels",
+                column: "OwnerId",
                 principalTable: "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
@@ -31,8 +37,20 @@ namespace Conflict.Server.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
+                name: "FK_Channels_Users_OwnerId",
+                table: "Channels");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_Messages_Users_AuthorId",
                 table: "Messages");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Channels_OwnerId",
+                table: "Channels");
+
+            migrationBuilder.DropColumn(
+                name: "OwnerId",
+                table: "Channels");
 
             migrationBuilder.CreateTable(
                 name: "User",

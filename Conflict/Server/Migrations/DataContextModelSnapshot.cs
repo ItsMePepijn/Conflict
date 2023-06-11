@@ -18,7 +18,7 @@ namespace Conflict.Server.Migrations
                 .HasAnnotation("ProductVersion", "7.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Conflict.Shared.DbModels.DbChannel", b =>
+            modelBuilder.Entity("Conflict.Shared.Models.Channel", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -28,12 +28,17 @@ namespace Conflict.Server.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<long>("OwnerId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Channels");
                 });
 
-            modelBuilder.Entity("Conflict.Shared.DbModels.DbMessage", b =>
+            modelBuilder.Entity("Conflict.Shared.Models.Message", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -56,7 +61,7 @@ namespace Conflict.Server.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("Conflict.Shared.DbModels.DbUser", b =>
+            modelBuilder.Entity("Conflict.Shared.Models.User", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -75,9 +80,20 @@ namespace Conflict.Server.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Conflict.Shared.DbModels.DbMessage", b =>
+            modelBuilder.Entity("Conflict.Shared.Models.Channel", b =>
                 {
-                    b.HasOne("Conflict.Shared.DbModels.DbUser", "Author")
+                    b.HasOne("Conflict.Shared.Models.User", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("Conflict.Shared.Models.Message", b =>
+                {
+                    b.HasOne("Conflict.Shared.Models.User", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
