@@ -35,3 +35,24 @@
     width: 20px;
     margin-right: 5px;
 }
+
+.add-channel {
+    all: unset;
+    background-color: rgb(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 38px;
+    padding: 7px 5px;
+    border-radius: 7px;
+    margin: 15px 0 0 10px;
+    transition: 250ms;
+}
+    .add-channel:hover {
+        cursor: pointer;
+        background-color: rgb(255, 255, 255, 0.2)
+    }
+    .add-channel img {
+        width: 17px;
+        filter: invert(71%) sepia(82%) saturate(0%) hue-rotate(161deg) brightness(101%) contrast(80%);
+    }
