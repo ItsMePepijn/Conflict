@@ -37,7 +37,7 @@ namespace Conflict.Server.Services.ChannelsService
 
             _dataContext.Channels.Add(channel);
             await _dataContext.SaveChangesAsync();
-            await _chatHub.Clients.All.SendAsync("ChannelAdded", channel);
+            await _chatHub.Clients.All.SendAsync("ChannelInfoChanged");
 
             return channel;
         }
@@ -49,12 +49,13 @@ namespace Conflict.Server.Services.ChannelsService
             {
                 channel = _dataContext.Channels.Where(c => c.Id == channelId).Single();
 
-                await _chatHub.Clients.All.SendAsync("ChannelInfoChanged");
 
                 _dataContext.Channels.Remove(channel);
-                await _dataContext.Messages.Where(m => m.ChannelId == channelId).ExecuteDeleteAsync();
                 await _dataContext.SaveChangesAsync();
 
+                await _chatHub.Clients.All.SendAsync("ChannelInfoChanged");
+
+                await _dataContext.Messages.Where(m => m.ChannelId == channelId).ExecuteDeleteAsync();
 			}
             catch (Exception)
             {
