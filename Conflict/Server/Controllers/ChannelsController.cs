@@ -27,6 +27,13 @@ namespace Conflict.Server.Controllers
             return Ok(channels);
         }
 
+        [HttpPost]
+        public async Task<ActionResult<Channel>> CreateChannel(CreateChannelDto channelDto)
+        {
+            Channel channel = await _channelsService.CreateChannel(channelDto);
+            return Ok(channel);
+        }
+
         [HttpPost("{id}/messages")]
         public async Task<ActionResult<MessageDto>> SendMessage(SendMessageDto messageDto, long id)
         {

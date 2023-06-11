@@ -27,6 +27,21 @@ namespace Conflict.Server.Services.ChannelsService
             return channels;
         }
 
+        public async Task<Channel> CreateChannel(CreateChannelDto channelDto)
+        {
+            Channel channel = new()
+            {
+                Id = FlakeId.Id.Create(),
+                Name = channelDto.Name
+            };
+
+            _dataContext.Channels.Add(channel);
+            await _dataContext.SaveChangesAsync();
+            await _chatHub.Clients.All.SendAsync("ChannelAdded", channel);
+
+            return channel;
+        }
+
         public async Task<MessageDto> SendMessageToChannel(long channelToSendTo, SendMessageDto messageDto, long userId)
         {
             Message message = new()
