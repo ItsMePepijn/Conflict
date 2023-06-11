@@ -13,7 +13,7 @@ namespace Conflict.Client.Shared.App
 
         protected override void OnInitialized()
         {
-            ChannelState.OnChange += LoadMessages;
+            ChannelState.OnChange += ChannelChanged;
 
 			ConnectionProvider.HubConnection.On<MessageDto>("ReceiveMessage", (message) =>
             {
@@ -49,7 +49,7 @@ namespace Conflict.Client.Shared.App
             }
         }
 
-        public async void LoadMessages()
+        public async void ChannelChanged()
         {
             StateHasChanged();
             if (ChannelState.CurrentChannel?.Id is not null)
