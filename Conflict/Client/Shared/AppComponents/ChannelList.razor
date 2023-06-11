@@ -16,9 +16,10 @@
 			{
 				string isActive = string.Empty;
 				@if (ChannelState.CurrentChannel?.Id == channel.Id) isActive = "active";
-				<div class="channel @isActive" @onclick="() => HandleChannelClick(channel)">
+				<div class="channel @isActive" @onmouseup="() => HandleChannelClick(channel)">
 					<img class="channel-icon" src="/hashtag.svg">
 					<p>@channel.Name</p>
+					<button class="delete-channel" onmouseup="event.stopPropagation()" @onclick="() => DeleteChannel(channel.Id)"><img src="/trash-icon.svg" /></button>
 				</div>
 			}
 		}

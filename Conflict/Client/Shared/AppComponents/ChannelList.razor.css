@@ -36,6 +36,16 @@
     margin-right: 5px;
 }
 
+.channel .delete-channel{
+    all: unset;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+.channel img{
+    width: 18px;
+}
+
 .add-channel {
     all: unset;
     background-color: rgb(255, 255, 255, 0.1);

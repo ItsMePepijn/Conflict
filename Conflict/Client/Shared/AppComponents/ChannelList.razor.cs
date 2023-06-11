@@ -48,5 +48,11 @@ namespace Conflict.Client.Shared.AppComponents
 			else
 				ChannelState.SetChannel(channel);
 		}
+
+		public async Task DeleteChannel(long channelId)
+		{
+			ChannelState.SetChannel(null);
+			await Http.DeleteAsync($"/api/channels/{channelId}");
+		}
 	}
 }
