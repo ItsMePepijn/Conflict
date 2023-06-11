@@ -21,12 +21,9 @@ namespace Conflict.Client.Shared.AppComponents
 				}
 			});
 
-			ConnectionProvider.HubConnection.On<Channel>("ChannelInfoChanged", (channel) =>
+			ConnectionProvider.HubConnection.On("ChannelInfoChanged", async () =>
 			{
-				if(Channels is not null)
-				{
-					Channels.Remove(channel);
-				}
+				await LoadChannels();
 			});
 
 
@@ -40,6 +37,7 @@ namespace Conflict.Client.Shared.AppComponents
 			{
 				Channels = new();
 				Channels.AddRange(result);
+				StateHasChanged();
 			}
 		}
 
