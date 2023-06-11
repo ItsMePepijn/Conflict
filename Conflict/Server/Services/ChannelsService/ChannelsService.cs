@@ -1,7 +1,9 @@
-﻿using Conflict.Server.Data;
+﻿using AutoMapper;
+using Conflict.Server.Data;
 using Conflict.Server.Hubs;
-using Conflict.Shared.Dto;
+
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Conflict.Server.Services.ChannelsService
 {
@@ -9,11 +11,13 @@ namespace Conflict.Server.Services.ChannelsService
     {
         private readonly DataContext _dataContext;
         private readonly IHubContext<ChatHub> _chatHub;
+        private readonly IMapper _mapper;
 
-        public ChannelsService(DataContext dataContext, IHubContext<ChatHub> chatHub)
+        public ChannelsService(DataContext dataContext, IHubContext<ChatHub> chatHub, IMapper mapper)
         {
             _dataContext = dataContext;
             _chatHub = chatHub;
+            _mapper = mapper;
         }
 
         public List<Channel> GetAllChannels()
@@ -23,18 +27,31 @@ namespace Conflict.Server.Services.ChannelsService
             return channels;
         }
 
-        public async Task<Message> SendMessageToChannel(MessageDto messageDto, User user)
+        public async Task<MessageDto> SendMessageToChannel(long channelToSendTo, SendMessageDto messageDto, long userId)
         {
             Message message = new()
             {
                 Content = messageDto.Content,
                 Id = FlakeId.Id.Create(),
-                Author = user
+                AuthorId = userId,
+                ChannelId = channelToSendTo,
             };
 
-            await _chatHub.Clients.All.SendAsync("ReceiveMessage", message);
+            _dataContext.Messages.Add(message);
+            await _dataContext.SaveChangesAsync();
 
-            return message;
+            MessageDto returnMessage = _mapper.Map<MessageDto>(_dataContext.Messages.Include(m => m.Author).SingleOrDefault(m => m.Id == message.Id));
+            await _chatHub.Clients.All.SendAsync("ReceiveMessage", returnMessage);
+
+            return returnMessage;
         }
+
+        public List<MessageDto> GetMessagesFromChannel(long channelId)
+        {
+			List<Message> MessagesFromDb = _dataContext.Messages.Where(message => message.ChannelId == channelId).Include(message => message.Author).OrderByDescending(message => message.Id).ToList();
+            List<MessageDto> Messages = _mapper.Map<List<MessageDto>>(MessagesFromDb);
+
+            return Messages;
+		}
     }
 }
