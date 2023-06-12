@@ -5,11 +5,11 @@ namespace Conflict.Client.Shared
 {
 	partial class Login
 	{
-        UserLoginDto user = new();
+        UserLoginDto User = new();
 
         async Task HandleLogin()
         {
-            var result = await Http.PostAsJsonAsync("api/auth/login", user);
+            var result = await Http.PostAsJsonAsync("api/auth/login", User);
             var token = await result.Content.ReadAsStringAsync();
             await LocalStorage.SetItemAsync("token", token);
             await AuthStateProvider.GetAuthenticationStateAsync();
