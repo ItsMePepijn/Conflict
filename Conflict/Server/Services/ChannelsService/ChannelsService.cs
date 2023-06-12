@@ -27,13 +27,13 @@ namespace Conflict.Server.Services.ChannelsService
             return channels;
         }
 
-        public async Task<Channel> CreateChannel(CreateChannelDto channelDto)
+        public async Task<Channel> CreateChannel(CreateChannelDto channelDto, long ownerId)
         {
             Channel channel = new()
             {
                 Id = FlakeId.Id.Create(),
                 Name = channelDto.Name,
-                OwnerId = channelDto.OwnerId,
+                OwnerId = ownerId,
             };
 
             _dataContext.Channels.Add(channel);

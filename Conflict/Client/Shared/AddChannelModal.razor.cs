@@ -10,13 +10,9 @@ namespace Conflict.Client.Shared
     partial class AddChannelModal
     {
         public string channelName = string.Empty;
-		public long UserId {  get; set; }
         protected async override Task OnInitializedAsync()
         {
             StateProvider.OnStateChange += StateHasChanged;
-
-			var authState = await AuthStateProvider.GetAuthenticationStateAsync();
-			UserId = long.Parse(authState.User.Claims.Where(claim => claim.Type == "id").First().Value);
 		}
 
 		public async Task KeyDown(KeyboardEventArgs e)
@@ -32,7 +28,7 @@ namespace Conflict.Client.Shared
 		{
 			if (!string.IsNullOrEmpty(channelName))
 			{
-				await Http.PostAsJsonAsync($"api/channels", new CreateChannelDto() { Name = channelName, OwnerId = UserId });
+				await Http.PostAsJsonAsync($"api/channels", new CreateChannelDto() { Name = channelName });
 				CloseModal();
 			}
 		}

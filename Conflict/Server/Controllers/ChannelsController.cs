@@ -30,7 +30,10 @@ namespace Conflict.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Channel>> CreateChannel(CreateChannelDto channelDto)
         {
-            Channel channel = await _channelsService.CreateChannel(channelDto);
+			IEnumerable<Claim> claims = JwtProvider.ParseClaimsFromJwt(Request.Headers.Authorization!);
+			long userId = long.Parse(claims.Where(claim => claim.Type == "id").First().Value);
+
+			Channel channel = await _channelsService.CreateChannel(channelDto, userId);
             return Ok(channel);
         }
 
