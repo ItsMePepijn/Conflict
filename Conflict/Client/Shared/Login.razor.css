@@ -1,0 +1,40 @@
+﻿.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #2b2d31;
+    background-image: url("/login-background.svg");
+    background-size: cover;
+}
+
+
+.login {
+    background-color: #313338;
+    border-radius: 5px;
+    padding: 30px 20px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 8px 30px;
+    color: floralwhite;
+}
+
+.login h3{
+    text-align: center;
+    margin-bottom: 20px;
+}
+.login label{
+    color: lightgray;
+}
+
+.login .input-element {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+    .login .button {
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+        padding: 10px;
+        
+    }

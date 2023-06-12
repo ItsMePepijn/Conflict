@@ -2,12 +2,23 @@
 @inject AuthenticationStateProvider AuthStateProvider
 @inject ILocalStorageService LocalStorage
 
-<h3>Login</h3>
+<div class="container">
+    <div class="login">
+        <h3>Welcome Back!</h3>
 
-<EditForm Model="User" OnSubmit="HandleLogin">
-    <label for="username">Name</label>
-    <InputText id="username" @bind-Value="User.Name" />
-    <label for="password">Password</label>
-    <InputText id="password" @bind-Value="User.Password" type="password" />
-    <button type="submit" class="btn btn-primary">Do it!</button>
-</EditForm>
+        <EditForm Model="User" OnSubmit="HandleLogin" >
+            <div class="input-element">
+                <label for="username">Username</label>
+                <br />
+                <InputText class="input" id="username" @bind-Value="User.Name" required />
+            </div>
+
+            <div class="input-element">
+                <label for="password">Password</label>
+                <br />
+                <InputText class="input" id="password" @bind-Value="User.Password" type="password" required />
+            </div>
+            <button type="submit" class="button primary can-press">Log In</button>
+        </EditForm>
+    </div>
+</div>
