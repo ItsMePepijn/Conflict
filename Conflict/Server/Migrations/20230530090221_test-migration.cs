@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Conflict.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class testmigration : Migration
+    public partial class Testmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

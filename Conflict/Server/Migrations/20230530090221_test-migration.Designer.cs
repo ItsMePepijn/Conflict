@@ -11,7 +11,7 @@ namespace Conflict.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20230530090221_test-migration")]
-    partial class testmigration
+    partial class Testmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
