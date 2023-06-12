@@ -6,10 +6,10 @@ namespace Conflict.Shared.Dto
     {
         public long Id { get; set; }
 
-        public string Content { get; set; }
+        public string Content { get; set; } = string.Empty;
 
         public long ChannelId { get; set; }
 
-        public UserDto Author { get; set; }
+        public UserDto Author { get; set; } = new();
     }
 }
