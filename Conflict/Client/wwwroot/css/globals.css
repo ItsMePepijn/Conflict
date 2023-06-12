@@ -53,3 +53,11 @@ h1:focus{
             .button.primary.can-press:hover {
                 background-color: #4752c4;
             }
+
+.special-text {
+    font-size: 1.3em;
+    background: rgb(26,109,255);
+    background: linear-gradient(351deg, rgba(26,109,255,1) 0%, rgba(200,34,255,1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
