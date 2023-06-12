@@ -1,16 +1,17 @@
-﻿@inject HttpClient Http
-@inject AuthenticationStateProvider AuthStateProvider
+﻿@inject AuthenticationStateProvider AuthStateProvider
 @inject ILocalStorageService LocalStorage
+@inject HubConnectionProvider HubConnection;
 
 <AuthorizeView>
 	<Authorized>
-		<button @onclick="SignOut">Logout</button>
+		<button class="logout button danger can-press" @onclick="SignOut">Log Out</button>
 	</Authorized>
 </AuthorizeView>
 
 @code {
 	public async void SignOut()
 	{
+		await HubConnection.HubConnection.StopAsync();
 		await LocalStorage.RemoveItemAsync("token");
 		await AuthStateProvider.GetAuthenticationStateAsync();
 	}

@@ -53,6 +53,12 @@ h1:focus{
             .button.primary.can-press:hover {
                 background-color: #4752c4;
             }
+    .button.danger {
+        border: 1px solid #da373c;
+    }
+        .button.danger.can-press:hover {
+            background-color: #da373c;
+        }
 
 .special-text {
     font-size: 1.3em;
