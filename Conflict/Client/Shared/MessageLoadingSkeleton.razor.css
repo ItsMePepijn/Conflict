@@ -1,0 +1,34 @@
+﻿.skeleton-kugztih7q18:empty {
+    position: relative;
+    flex-grow: 1;
+    margin-bottom: 10px;
+    overflow-y: hidden;
+    border-radius: 0px 0px 0px 0px;
+    background-image: linear-gradient( #1e1f22 11px, transparent 0 ),linear-gradient( #1e1f22 17px, transparent 0 ),linear-gradient( #1e1f22 11px, transparent 0 ),linear-gradient( #1e1f22 17px, transparent 0 );
+    background-repeat: repeat-y;
+    background-size: 300px 100px,100px 100px,25% 100px,88px 100px;
+    background-position: left 12px top 85px,left 11px top 60px,left 12px top 37px,left 12px top 12px;
+}
+
+    .skeleton-kugztih7q18:empty:before {
+        content: ' ';
+        position: absolute;
+        z-index: 1000;
+        width: 100%;
+        height: 1000px;
+        -webkit-mask-image: linear-gradient( 100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 80% );
+        -webkit-mask-repeat: repeat-y;
+        -webkit-mask-size: 50px 1000px;
+        -webkit-mask-position: -20% 0;
+        background-image: linear-gradient( rgba(255,255,255,1) 11px, transparent 0 ),linear-gradient( rgba(255,255,255,1) 17px, transparent 0 ),linear-gradient( rgba(255,255,255,1) 11px, transparent 0 ),linear-gradient( rgba(255,255,255,1) 17px, transparent 0 );
+        background-repeat: repeat-y;
+        background-size: 300px 100px,100px 100px,25% 100px,88px 100px;
+        background-position: left 12px top 85px,left 11px top 60px,left 12px top 37px,left 12px top 12px;
+        animation: shineForSkeleton-kugztih7q18 1.5s infinite;
+    }
+
+@keyframes shineForSkeleton-kugztih7q18 {
+    to {
+        -webkit-mask-position: 120% 0
+    }
+}
