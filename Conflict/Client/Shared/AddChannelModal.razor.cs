@@ -10,7 +10,7 @@ namespace Conflict.Client.Shared
     partial class AddChannelModal
     {
         public string channelName = string.Empty;
-        protected async override Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
             StateProvider.OnStateChange += StateHasChanged;
 		}
