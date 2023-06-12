@@ -1,0 +1,17 @@
+﻿.welcome-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.welcome-content{
+    text-align: center;
+}
+
+h2{
+    font-size: 50px;
+}
+p{
+    font-size: 25px;
+}
