@@ -1,8 +1,10 @@
-﻿namespace Conflict.Server.Services.AuthService
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace Conflict.Server.Services.AuthService
 {
 	public interface IAuthService
 	{
-		Task<string> Register(UserLoginDto userDto);
-		string? Login(UserLoginDto userDto);
+		Task<ActionResult<string>> Register(UserLoginDto userDto);
+		ActionResult<string> Login(UserLoginDto userDto);
 	}
 }

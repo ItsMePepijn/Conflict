@@ -16,21 +16,17 @@ namespace Conflict.Server.Controllers
 		[HttpPost("register")]
 		public async Task<ActionResult<string>> Register(UserLoginDto userDto)
 		{
-			var result = await _authService.Register(userDto);
+			ActionResult<string> result = await _authService.Register(userDto);
 
-			// TODO: fix always returning Ok()
-			return Ok(result);
+			return result;
 		}
 
 		[HttpPost("login")]
 		public ActionResult<string> Login(UserLoginDto userDto)
 		{
-			string? result = _authService.Login(userDto);
+			ActionResult<string> result = _authService.Login(userDto);
 
-			if (result is null)
-				return BadRequest("Invalid credentials!");
-
-			return Ok(result);
+			return result;
 		}
 
 

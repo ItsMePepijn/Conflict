@@ -1,4 +1,6 @@
 ﻿using Conflict.Server.Data;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -16,12 +18,12 @@ namespace Conflict.Server.Services.AuthService
 			_dataContext = dataContext;
 		}
 
-		public async Task<string> Register(UserLoginDto userDto)
+		public async Task<ActionResult<string>> Register(UserLoginDto userDto)
 		{
 			// Checks if username already exists
 			User? dbUser = _dataContext.Users.SingleOrDefault(user => user.Name == userDto.Name);
 			if (dbUser is not null)
-				return "Username already exists!";
+				return new BadRequestObjectResult("Username already exists!");
 
 			// Hash password and create a new user object
 			string passwordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
@@ -34,20 +36,20 @@ namespace Conflict.Server.Services.AuthService
 			_dataContext.Add(NewUser);
 			await _dataContext.SaveChangesAsync();
 
-			return NewUser.Name;
+			return new OkObjectResult(NewUser.Name);
 		}
 
-		public string? Login(UserLoginDto userDto)
+		public ActionResult<string> Login(UserLoginDto userDto)
 		{
 			// Verify user info
 			User dbUser = _dataContext.Users.SingleOrDefault(user => user.Name == userDto.Name)!;
 			if (dbUser.Name != userDto.Name || !BCrypt.Net.BCrypt.Verify(userDto.Password, dbUser.PasswordHash))
 			{
-				return null;
+				return new BadRequestObjectResult("Invalid username or password!");
 			}
 
 			string token = GenerateToken(dbUser);
-			return token;
+			return new OkObjectResult(token);
 		}
 
 		private string GenerateToken(User user)
