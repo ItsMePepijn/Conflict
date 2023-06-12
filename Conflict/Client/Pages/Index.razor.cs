@@ -8,6 +8,8 @@ namespace Conflict.Client.Pages
 
 		protected override async Task OnInitializedAsync()
 		{
+			await AuthStateProvider.GetAuthenticationStateAsync();
+
 			ConnectionProvider.HubConnection.Reconnecting += error =>
 			{
 				StateHasChanged();
