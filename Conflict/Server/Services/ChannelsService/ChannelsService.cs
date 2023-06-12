@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Conflict.Server.Data;
 using Conflict.Server.Hubs;
-
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,15 +21,18 @@ namespace Conflict.Server.Services.ChannelsService
             _mapper = mapper;
         }
 
-        public List<Channel> GetAllChannels()
+        public ActionResult<List<Channel>> GetAllChannels()
         {
             List<Channel> channels = _dataContext.Channels.ToList();
 
-            return channels;
+            return new OkObjectResult(channels);
         }
 
-        public async Task<Channel> CreateChannel(CreateChannelDto channelDto, long ownerId)
+        public async Task<ActionResult<Channel>> CreateChannel(CreateChannelDto channelDto, long ownerId)
         {
+            if (string.IsNullOrEmpty(channelDto.Name))
+                return new BadRequestObjectResult("Channel name required");
+
             Channel channel = new()
             {
                 Id = FlakeId.Id.Create(),
@@ -40,10 +44,10 @@ namespace Conflict.Server.Services.ChannelsService
             await _dataContext.SaveChangesAsync();
             await _chatHub.Clients.All.SendAsync("ChannelInfoChanged");
 
-            return channel;
+            return new OkObjectResult(channel);
         }
 
-        public async Task<Channel?> DeleteChannel(long channelId)
+        public async Task<ActionResult<Channel>> DeleteChannel(long channelId)
         {
             Channel channel;
             try
@@ -56,16 +60,16 @@ namespace Conflict.Server.Services.ChannelsService
                 await _chatHub.Clients.All.SendAsync("ChannelInfoChanged");
 
                 await _dataContext.Messages.Where(m => m.ChannelId == channelId).ExecuteDeleteAsync();
-			}
+            }
             catch (Exception)
             {
-                return null;
+                return new BadRequestObjectResult("An error ocurred");
             }
 
-            return channel;
+            return new OkObjectResult(channel);
         }
 
-        public async Task<MessageDto> SendMessageToChannel(long channelToSendTo, SendMessageDto messageDto, long userId)
+        public async Task<ActionResult<MessageDto>> SendMessageToChannel(long channelToSendTo, SendMessageDto messageDto, long userId)
         {
             Message message = new()
             {
@@ -81,15 +85,15 @@ namespace Conflict.Server.Services.ChannelsService
             MessageDto returnMessage = _mapper.Map<MessageDto>(_dataContext.Messages.Include(m => m.Author).SingleOrDefault(m => m.Id == message.Id));
             await _chatHub.Clients.All.SendAsync("ReceiveMessage", returnMessage);
 
-            return returnMessage;
+            return new OkObjectResult(returnMessage);
         }
 
-        public List<MessageDto> GetMessagesFromChannel(long channelId)
+        public ActionResult<List<MessageDto>> GetMessagesFromChannel(long channelId)
         {
-			List<Message> MessagesFromDb = _dataContext.Messages.Where(message => message.ChannelId == channelId).Include(message => message.Author).OrderByDescending(message => message.Id).ToList();
+            List<Message> MessagesFromDb = _dataContext.Messages.Where(message => message.ChannelId == channelId).Include(message => message.Author).OrderByDescending(message => message.Id).ToList();
             List<MessageDto> Messages = _mapper.Map<List<MessageDto>>(MessagesFromDb);
 
-            return Messages;
-		}
+            return new OkObjectResult(Messages);
+        }
     }
 }

@@ -21,10 +21,9 @@ namespace Conflict.Server.Controllers
         [HttpGet]
         public ActionResult<List<Channel>> GetAllChannels()
         {
-            List<Channel> channels = new List<Channel>();
-            channels.AddRange(_channelsService.GetAllChannels());
+            ActionResult<List<Channel>> channels = _channelsService.GetAllChannels();
 
-            return Ok(channels);
+            return channels;
         }
 
         [HttpPost]
@@ -33,18 +32,16 @@ namespace Conflict.Server.Controllers
 			IEnumerable<Claim> claims = JwtProvider.ParseClaimsFromJwt(Request.Headers.Authorization!);
 			long userId = long.Parse(claims.Where(claim => claim.Type == "id").First().Value);
 
-			Channel channel = await _channelsService.CreateChannel(channelDto, userId);
-            return Ok(channel);
+			ActionResult<Channel> channel = await _channelsService.CreateChannel(channelDto, userId);
+            return channel;
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<Channel>> DeleteChannel(long id)
         {
-            Channel? deletedChannel = await _channelsService.DeleteChannel(id);
-            if (deletedChannel is null)
-                return BadRequest();
+            ActionResult<Channel> deletedChannel = await _channelsService.DeleteChannel(id);
 
-            return Ok(deletedChannel);
+            return deletedChannel;
         }
 
         [HttpPost("{id}/messages")]
@@ -53,18 +50,16 @@ namespace Conflict.Server.Controllers
             IEnumerable<Claim> claims = JwtProvider.ParseClaimsFromJwt(Request.Headers.Authorization!);
             long userId = long.Parse(claims.Where(claim => claim.Type == "id").First().Value);
 
-            MessageDto message = await _channelsService.SendMessageToChannel(id, messageDto, userId);
-            return Ok(message);
+            ActionResult<MessageDto> message = await _channelsService.SendMessageToChannel(id, messageDto, userId);
+            return message;
         }
 
         [HttpGet("{id}/messages")]
         public ActionResult<List<MessageDto>> GetMessagesFromChannel(long id)
         {
-            List<MessageDto> messages = _channelsService.GetMessagesFromChannel(id);
-            if (messages is null)
-                return BadRequest();
+            ActionResult<List<MessageDto>> messages = _channelsService.GetMessagesFromChannel(id);
 
-            return Ok(messages);
+            return messages;
         }
     }
 }
