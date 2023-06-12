@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Conflict.Server.Data;
 using Conflict.Server.Hubs;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;

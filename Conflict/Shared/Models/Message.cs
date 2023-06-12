@@ -1,7 +1,5 @@
 ﻿
 
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace Conflict.Shared.Models
 {
     public class Message
