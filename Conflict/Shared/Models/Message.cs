@@ -10,7 +10,7 @@ namespace Conflict.Shared.Models
 
         public long ChannelId { get; set; }
 
-        public User Author { get; set; } = new();
+        public User? Author { get; set; }
 
         public long AuthorId { get; set; }
 
