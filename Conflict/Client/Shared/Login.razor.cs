@@ -6,11 +6,22 @@ namespace Conflict.Client.Shared
 	partial class Login
 	{
         UserLoginDto User = new();
+        string Error = string.Empty;
+        string CanPress = "can-press";
 
         async Task HandleLogin()
         {
+            Error = string.Empty;
+            CanPress = string.Empty;
             var result = await Http.PostAsJsonAsync("api/auth/login", User);
-            if (result.StatusCode is not System.Net.HttpStatusCode.OK) return;
+            if (result.StatusCode is not System.Net.HttpStatusCode.OK)
+            {
+                Error = await result.Content.ReadAsStringAsync();
+                User = new();
+                CanPress = "can-press";
+                return;
+            }
+            CanPress = "can-press";
 
             var token = await result.Content.ReadAsStringAsync();
 
