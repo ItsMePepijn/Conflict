@@ -41,8 +41,16 @@ namespace Conflict.Server.Services.AuthService
 		public ActionResult<string> Login(UserLoginDto userDto)
 		{
 			// Verify user info
-			User dbUser = _dataContext.Users.SingleOrDefault(user => user.Name == userDto.Name)!;
-			if (string.IsNullOrEmpty(dbUser.Name) || !BCrypt.Net.BCrypt.Verify(userDto.Password, dbUser.PasswordHash))
+			User dbUser;
+			try
+			{
+				dbUser = _dataContext.Users.SingleOrDefault(user => user.Name == userDto.Name)!;
+				if (string.IsNullOrEmpty(dbUser.Name) || !BCrypt.Net.BCrypt.Verify(userDto.Password, dbUser.PasswordHash))
+				{
+					return new BadRequestObjectResult("Invalid username or password!");
+				}
+			}
+			catch (Exception)
 			{
 				return new BadRequestObjectResult("Invalid username or password!");
 			}
