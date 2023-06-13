@@ -62,9 +62,7 @@ builder.Services.AddScoped<IChannelsService, ChannelsService>();
 builder.Services.AddAutoMapper(typeof(MapperProfile));
 
 // Database configuration
-string? connectionString = builder.Configuration.GetConnectionString("PlanetScaleDbConnection");
-if(connectionString is null)
-	throw new Exception("Db connection string is not set!");
+string? connectionString = builder.Configuration.GetConnectionString("PlanetScaleDbConnection") ?? throw new Exception("Db connection string is not set!");
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
