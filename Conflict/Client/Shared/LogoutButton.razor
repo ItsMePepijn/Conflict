@@ -11,7 +11,10 @@
 @code {
 	public async void SignOut()
 	{
+		// Stop SignalR connection
 		await HubConnection.HubConnection.StopAsync();
+
+		// Remove token from localstorage and refresh authstate
 		await LocalStorage.RemoveItemAsync("token");
 		await AuthStateProvider.GetAuthenticationStateAsync();
 	}

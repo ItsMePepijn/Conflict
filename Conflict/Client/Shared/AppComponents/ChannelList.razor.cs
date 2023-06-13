@@ -28,6 +28,8 @@ namespace Conflict.Client.Shared.AppComponents
 			ConnectionProvider.HubConnection.On("ChannelInfoChanged", async () =>
 			{
 				await LoadChannels();
+
+				// Leave channel if its deleted
 				if(Channels is not null)
 					if (!Channels.Any(c => c.Id == ChannelState.CurrentChannel?.Id)) ChannelState.SetChannel(null);
 			});
@@ -58,6 +60,8 @@ namespace Conflict.Client.Shared.AppComponents
 		public async Task DeleteChannel(long channelId)
 		{
 			ChannelState.SetChannel(null);
+
+			// Remove channel from client first for better client-side performance
 			Channels?.Remove(Channels.Find(c => c.Id == channelId)!);
 			await Http.DeleteAsync($"/api/channels/{channelId}");
 		}

@@ -27,6 +27,7 @@ namespace Conflict.Client.Providers
 
             if (!string.IsNullOrEmpty(token))
             {
+                // Parse claims from token and add token to headers
                 identity = new ClaimsIdentity(JwtProvider.ParseClaimsFromJwt(token), "jwt");
                 _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Replace("\"", ""));
             }
