@@ -63,6 +63,9 @@ builder.Services.AddAutoMapper(typeof(MapperProfile));
 
 // Database configuration
 string? connectionString = builder.Configuration.GetConnectionString("PlanetScaleDbConnection");
+if(connectionString is null)
+	throw new Exception("Db connection string is not set!");
+
 builder.Services.AddDbContext<DataContext>(options =>
 {
 	options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
