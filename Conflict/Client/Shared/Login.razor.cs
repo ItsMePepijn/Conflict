@@ -10,6 +10,8 @@ namespace Conflict.Client.Shared
         async Task HandleLogin()
         {
             var result = await Http.PostAsJsonAsync("api/auth/login", User);
+            if (result.StatusCode is not System.Net.HttpStatusCode.OK) return;
+
             var token = await result.Content.ReadAsStringAsync();
 
             // Put token in localstorage and refresh state

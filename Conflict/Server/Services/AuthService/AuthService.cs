@@ -42,7 +42,7 @@ namespace Conflict.Server.Services.AuthService
 		{
 			// Verify user info
 			User dbUser = _dataContext.Users.SingleOrDefault(user => user.Name == userDto.Name)!;
-			if (dbUser.Name is null || !BCrypt.Net.BCrypt.Verify(userDto.Password, dbUser.PasswordHash))
+			if (string.IsNullOrEmpty(dbUser.Name) || !BCrypt.Net.BCrypt.Verify(userDto.Password, dbUser.PasswordHash))
 			{
 				return new BadRequestObjectResult("Invalid username or password!");
 			}
